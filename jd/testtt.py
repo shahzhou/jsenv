@@ -1,0 +1,28 @@
+import requests
+
+url = "https://api.m.jd.com/api?appid=search-pc-java&t=1760072956002&client=pc&clientVersion=1.0.0&cthr=1&uuid=2028353643&loginType=3&keyword=手机&functionId=pc_search_searchWare&body={\"enc\":\"utf-8\",\"pvid\":\"4eda659c5ff34cfa9e70a62d171b22ae\",\"area\":\"19_1607_4773_62123\",\"page\":6,\"new_interval\":true,\"s\":1}&x-api-eid-token=jdd036EUFB7RNSHAVBG2Q33LXNPQSFOYOZOXA7Q7IUWPQYPAVCQIZFEE77WS4LYT7QGFOTSQLWEJLXNJQRENJO2EYOJVFMUAAAAMZZSC7LUYAAAAACZXNALICTERAM4X&h5st=20251010145110547;93tawwzig0dtht05;f3rdv;tk05w8d7e818b41lMSsxeDIrMngzfZRUxRaHtQbV687DqEKJtUOThhRhIvlpkRpJY07NSk9VpUcT0otV8I7V-8_VpBeI;a1f05d884eab4cc323432fe7774a90c9;5.2;1760079068547;gt6f-NeVtAbE9guI44qEqcbEu9_ZB5_ZxI7ZBh-f1Z-ZB5_ZxIdG6YLIqYfZB5hW-h_WvpPUrkMI187ICMeH-h-T-J6ZBh-f1ZfNKI7VqcOLOA7ZB5_Z0kbIzc7F-hfZXxPCBh-fvh-T-dOVsY7ZBhfZB5hWtdeZnZfVwN6J-hfZBh-f1Z-Uzd_WxZfZnZPVsY7ZBhfZB5hWxh-T-BOE-YfZBhfZXxPV0h-T-JOE-YfZBhfZX1aZnZfIzMbEpM7ZBh-f1taZB5BZtNLV7ILT-8_VwZLTqlcI3YfZnZ-VxYfZBhfZX1aZnZfFxYfZB5xD;2759d9fb80350fde3e593609f00eaa40;gRaW989Gy8bE_oLE7w-Gy8rFvM7MtoLI4wrJ1R6G88bG_wPD9k7J1RLHxgKJ&t=1760072959197"
+
+payload = {}
+headers = {
+  'accept': 'application/json, text/plain, */*',
+  'accept-language': 'zh,en;q=0.9,zh-CN;q=0.8',
+  'cache-control': 'no-cache',
+  'origin': 'https://search.jd.com',
+  'pragma': 'no-cache',
+  'priority': 'u=1, i',
+  'referer': 'https://search.jd.com/',
+  'sec-ch-ua': '"Chromium";v="140", "Not=A?Brand";v="24", "Google Chrome";v="140"',
+  'sec-ch-ua-mobile': '?0',
+  'sec-ch-ua-platform': '"Windows"',
+  'sec-fetch-dest': 'empty',
+  'sec-fetch-mode': 'cors',
+  'sec-fetch-site': 'same-site',
+  'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36',
+  'x-referer-page': 'https://search.jd.com/Search',
+  'x-rp-client': 'h5_1.0.0',
+  'cookie': 'unpl=JF8EAJhnNSttDElVBB9SEkUZGQ8BWwlYHh4KOmdSBFQNQ1FWHFcSEBV7XlVdWRRLFh9vZhRVWVNIUw4ZCysSEXteU11bD00VB2xXVgQFDQ8WUUtBSUt-Q1pVXFsNSxcDaVc1V11oS1U1GAMYGxJPX1NbXzhKJwRfVzVUW1pNVQwrAysTIAkJCFhfDk0SAiJkBFdUWk9WAh4AKxMgSA; __jdu=2028353643; __jdv=229668127|baidu-search|t_262767352_baidusearch|cpc|9603741117_0_e3005a8f8ccd4ead88d1fa8d94b6d834|1760046285425; areaId=19; PCSYCityID=CN_440000_440300_0; shshshfpa=14e169bc-866f-cf5d-c370-0439d9152e9a-1760046339; shshshfpx=14e169bc-866f-cf5d-c370-0439d9152e9a-1760046339; ipLoc-djd=19-1607-4773-62123; jcap_dvzw_fp=nOs1NeU2rKOfuY6vzEpHI3vRM6da9N9xeOfCC28uLVZcc7oWJh_3TaWJM0z3XTA-YElKVLTQ6cBgkX04eDO5QM66e0M=; _pst=jd_79b129b9ff1e4; _tp=2zvLvEl2mzU0PwqqIn4GR%2B8teRlheJ6Uj8VdesZT3pE%3D; pinId=FSVhe0Y_A63pRBSl5e5zwLV9-x-f3wj7; mail_times=4%2C2%2C1760048451523; mba_muid=2028353643; mba_sid=1760077490395390709517.1; 3AB9D23F7A4B3CSS=jdd036EUFB7RNSHAVBG2Q33LXNPQSFOYOZOXA7Q7IUWPQYPAVCQIZFEE77WS4LYT7QGFOTSQLWEJLXNJQRENJO2EYOJVFMUAAAAMZZTFSNRYAAAAACLPMYLLLIH2MTYX; wlfstk_smdl=s989a1e8ztqgppobprmyxuryg9g6mske; TrackID=1M1Zb9dxchACdrv7cRuOmwp6Sl8g3sZJhbHjLxJF89AySjQPcp_bZkfxjrIvbIXtSRTTXnnUpxut5fso8Qakl_n2mShibROFIoBPCRkPqseU; thor=FC75B3E3A94BAE8F9E6382AF53704931E525C451E12253A361B86E5ECDD4FCB0A96765F9368A4F38B7DEE12EFA2B23B3437E09957943B131FC3142A170ED25716E5E27F2B170BEC51B222996004F95CFD6C6CEDFBC2793E7348D97AE1D7D4B596A04635DF9509ED412B01A46353A79A6A8AB631B847AED92982039711C59541DFC8B00C944DAAE8F48F7D989B35A7C2848A6C6BD6AFB0102E0CE9EE25A6FB0A6; light_key=AASBKE7rOxgWQziEhC_QY6yacY8LneoAlrfS9OfQRxNpr6pQ0jkg8u4iKbJG81F4h2tzQmI4; pin=jd_79b129b9ff1e4; unick=jd_l2g81gkp57p474; ceshi3.com=000; __jda=143920055.2028353643.1760045198.1760069438.1760076633.5; __jdc=143920055; cn=0; shshshfpb=BApXSuznDz_xAF8esdCgh6XG5bU5i059ABiJFZBZo9xJ1MrUW9Y62; 3AB9D23F7A4B3C9B=6EUFB7RNSHAVBG2Q33LXNPQSFOYOZOXA7Q7IUWPQYPAVCQIZFEE77WS4LYT7QGFOTSQLWEJLXNJQRENJO2EYOJVFMU; flash=3_uECESr8_Be-rBDS45t9iCNUOUlzYmji81srCVfOSk-zSlSJR3-woQsPl4TNu7jUDc6WP_wVhqI7H718c7aQWJg4giOtA6-E49WXR8jXoyiyByZ61q3rDa-fyrgvNz70dQOlNvC7tRMzHOl4Hu8xhKn6j0JwgL2zi4GYpIjxaX6v9lMyilHoLlV**; __jdb=143920055.15.2028353643|5.1760076633; sdtoken=AAbEsBpEIOVjqTAKCQtvQu17EhZtZUgEImusQu0lVj-C_AJAXez39Kd9hLdZ4CIuIJ5py25bOOviEwqYBa3Did5ICk542ZeeYlmjq1IKzJ6nnUzFE2mbSMjY7aTcejlpf1gMRhIm6S7sCiKe9yfttheFlL7GCtqW_mL6zhDfCaVt3A'
+}
+
+response = requests.request("GET", url, headers=headers, data=payload)
+
+print(response.text)
