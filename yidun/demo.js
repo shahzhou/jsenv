@@ -128,15 +128,60 @@ require('./code')
 
 // ll= [Math['round'](_0x5ec3d1['clientX'] - left), Math['round'](_0x5ec3d1["clientY"] - top), new Date().getTime() - beginTime] + ''
 // 0x24ab01["traceData"] = [].push(ll)
-_0x40d0dc = "6a740ed5e494443a9640fb5877414634" //'token'
-traceData = ['181,1,0', '181,3,8', '180,5,17', '180,7,33', '179,8,40', '179,9,56', '179,10,64', '178,12,72', '178,13,88', '178,14,104', '178,15,112', '178,16,120', '177,18,128', '177,20,144', '176,22,152', '176,23,168', '176,24,184', '176,25,193']
-sign_move = traceData['map'](function(_0x250334) {
-                            return window.jiami_xyt(_0x40d0dc, _0x250334);
-                        });
-mm = window.mmm(window._sample(sign_move, 50)["join"](':'))
-console.log('data.m>>',  mm, mm.length)
+// _0x40d0dc = "6a740ed5e494443a9640fb5877414634" //'token'
+// traceData = ['181,1,0', '181,3,8', '180,5,17', '180,7,33', '179,8,40', '179,9,56', '179,10,64', '178,12,72', '178,13,88', '178,14,104', '178,15,112', '178,16,120', '177,18,128', '177,20,144', '176,22,152', '176,23,168', '176,24,184', '176,25,193']
 
-// console.log('data.m>>', window.mmm(m))
-// console.log('data.p>>', window.mmm(p))
-// console.log('data.ext>>', window.mmm(ext))
-// console.log('data.cb>>', window._cb())
+function get_data(traceData, x, y, token) {
+    left = 364
+    top = 519
+    sign_move = traceData['map'](function(_0x250334) {
+                            return window.jiami_xyt(token, _0x250334);
+                        })
+    console.log('sign_move>>', sign_move)
+    mm = window.mmm(window._sample(sign_move, 50)["join"](':'))
+    console.log('data.m>>',  mm, mm.length)
+    // ppp = [Math["round"](x - left), Math['round'](y - top),  new Date().getTime() - (beginTime || new Date().getTime()), 0] + ''
+    ppp = [Math["round"](x - left), Math['round'](y - top),  55, 0] + ''
+    pp = window.mmm(window.jiami_xyt(token, ppp))
+    console.log('data.p>>',pp, pp.length)
+
+    ext = window.mmm(window.jiami_xyt(token,'1,' + sign_move['length']))
+    console.log('data.ext>>', ext, ext.length)
+    cb =  window._cb()
+    console.log('data.cb>>',cb, cb.length)
+
+    return {'d':'','m':mm, 'p':pp, 'ext':ext, 'cb':cb}
+}
+
+function get_cb() {
+    cb =  window._cb()
+    return cb
+}
+
+function get_fp() {
+   fp = window._fp()
+    return fp
+}
+
+// console.log(get_data(traceData, _0x40d0dc, 556, 520))
+
+//hook gdxidpyhxde fp生成方法
+
+// (function (){
+//     "use strict"
+//     var gdxidpyhxde = ""
+//     Object.defineProperty(window, 'gdxidpyhxde', {
+//         set: function(value) {
+//             console.log('gdxidpyhxde>>', value)
+//             debugger
+//             gdxidpyhxde = value
+//             return value
+//
+//         },
+//         get: function() {
+//             return gdxidpyhxde
+//         }
+//
+//     })
+// })()
+
