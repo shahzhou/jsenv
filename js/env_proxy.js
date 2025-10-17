@@ -124,6 +124,9 @@ console.log(123456)
 //0.1版本
 function watch(obj, name) {
     return new Proxy(obj, {
+        //target 被代理的原始对象
+        // property 被访问的属性名
+        // receiver 最初被调用的对象（通常是代理实例或继承对象）
         get: function(target, property, receiver) {
             try {
                 if (typeof target[property] === "function") {
