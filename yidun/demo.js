@@ -132,35 +132,34 @@ require('./code')
 // traceData = ['181,1,0', '181,3,8', '180,5,17', '180,7,33', '179,8,40', '179,9,56', '179,10,64', '178,12,72', '178,13,88', '178,14,104', '178,15,112', '178,16,120', '177,18,128', '177,20,144', '176,22,152', '176,23,168', '176,24,184', '176,25,193']
 
 function get_data(traceData, x, y, token) {
-    left = 364
-    top = 519
-    sign_move = traceData['map'](function(_0x250334) {
+    var left = 364
+    var top = 519
+    var sign_move = traceData['map'](function(_0x250334) {
                             return window.jiami_xyt(token, _0x250334);
                         })
     console.log('sign_move>>', sign_move)
-    mm = window.mmm(window._sample(sign_move, 50)["join"](':'))
+    var mm = window.mmm(window._sample(sign_move, 50)["join"](':'))
     console.log('data.m>>',  mm, mm.length)
     // ppp = [Math["round"](x - left), Math['round'](y - top),  new Date().getTime() - (beginTime || new Date().getTime()), 0] + ''
-    ppp = [Math["round"](x - left), Math['round'](y - top),  55, 0] + ''
-    pp = window.mmm(window.jiami_xyt(token, ppp))
+    var ppp = [Math["round"](x - left), Math['round'](y - top),  55, 0] + ''
+    var pp = window.mmm(window.jiami_xyt(token, ppp))
     console.log('data.p>>',pp, pp.length)
 
-    ext = window.mmm(window.jiami_xyt(token,'1,' + sign_move['length']))
+    var ext = window.mmm(window.jiami_xyt(token,'1,' + sign_move['length']))
     console.log('data.ext>>', ext, ext.length)
-    cb =  window._cb()
+    var cb =  window._cb()
     console.log('data.cb>>',cb, cb.length)
 
     return {'d':'','m':mm, 'p':pp, 'ext':ext, 'cb':cb}
 }
 
 function get_cb() {
-    cb =  window._cb()
-    return cb
+     return window._cb()
+
 }
 
 function get_fp() {
-   fp = window._fp()
-    return fp
+     return window._fp()
 }
 
 // console.log(get_data(traceData, _0x40d0dc, 556, 520))
@@ -184,4 +183,31 @@ function get_fp() {
 //
 //     })
 // })()
+// console.log(get_cb())
 
+
+//slider
+function get_slider_data(TraceData, x, width, token) {
+    //x 滑动距离
+    // var width = 286 //滑块背景图宽度
+    // var x = 150 //滑行距离
+    // var token = "defd77fad8e64736833eb3ae56752e41"
+    // var strTraceData = []
+    console.log('TraceData>>', typeof TraceData, TraceData)
+    var atomTraceData = TraceData //原轨迹 a0_0x1e60(0x2d5)
+    var traceData =  atomTraceData['map'](function(args) {
+                            return window.jiami_xyt(token, args + '');
+                        })
+    console.log('slider>>',traceData)
+    var d = window.mmm(window._sample(traceData,50)['join'](':'))
+    console.log('slider>d>',d)
+    var m =  ''
+    var p = window.mmm(window.jiami_xyt(token,x/width * 100 + ''))
+    console.log('slider>p>',p)
+    var f = window.mmm(window.jiami_xyt(token, window._ff(window._unique2DArray(atomTraceData,2))['join'](',')))
+    console.log('slider>f>',f)
+    var ext = window.mmm(window.jiami_xyt(token, '1,' + traceData['length']))
+    console.log('slider>ext>',ext)
+    return {'d':d, 'm':m, 'p':p, 'f':f, 'ext':ext}
+}
+// get_slider_data()

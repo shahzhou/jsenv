@@ -16,13 +16,14 @@ headers = {
   'sec-ch-ua-platform': '"Windows"',
   'cookie': '_ga=GA.1.2652a12902fc5.1e6698bdbe71b9b7157e; NTES_P_UTID=Yzu4dxFgDTjOp8PW05II1NrGZxYcBcNu|1758855801; P_INFO=shaohaozhou@163.com|1758855801|0|mail163|00&99|gud&1758855531&mailmaster_ios#gud&440300#10#0#0|&0|mailmaster_ios|shaohaozhou@163.com; nts_mail_user=shaohaozhou@163.com:-1:1; timing_user_id=time_9AIwk2J46Z; _ga=GA1.1.432572319.1759977623; _clck=s5p1gq%5E2%5Eg00%5E0%5E2108; _ga_C6TGHFPQ1H=GS2.1.s1759977622$o1$g0$t1759977676$j6$l0$h0; Hm_lvt_4671c5d502135636b837050ec6d716ce=1760442286; HMACCOUNT=3281C2A16E3CB9D1; __root_domain_v=.163.com; _qddaz=QD.745160442286854; gdxidpyhxdE=6GbSHYkmybddO0N2raOJblIArRd46jkYRVk6HTOc7xceeU%2FUlB4MjkQCQWTh0i8EtamdtUIRxjgSqc2L%2BC391S8TpIIvM%5CfTpZZbd6d9JKPKHCv2Hmv%2FeQztC5XAarP5mAhXhuy25JPM3AOHxJvIcKR1TTZjp7b%2FzAwoas%5C%2FqDk5Pusf%3A1760452387807; Hm_lpvt_4671c5d502135636b837050ec6d716ce=1760696631'
 }
-
+with open('./demo.js', 'r', encoding='utf-8') as f:
+    js_code = f.read()
 def get_token():
     url = "https://c.dun.163.com/api/v3/get"
     callback = f"__JSONP_{''.join(random.choices('abcdefghijklmnopqrstuvwxyz0123456789', k=8))}_0"
 
-    fp = execjs.compile(open('./demo.js', 'r', encoding='utf-8').read()).call('get_fp')
-    cb = execjs.compile(open('./demo.js', 'r', encoding='utf-8').read()).call('get_cb')
+    fp = execjs.compile(js_code).call('get_fp')
+    cb = execjs.compile(js_code).call('get_cb')
     params = {
         "referer": "https://dun.163.com/trial/sense",
         "zoneId": "CN31",
@@ -78,10 +79,11 @@ def track():
 def check():
     url = "https://c.dun.163.com/api/v3/check"
     callback = f"__JSONP_{''.join(random.choices('abcdefghijklmnopqrstuvwxyz0123456789', k=8))}_0"
-    cb = execjs.compile(open('./demo.js', 'r', encoding='utf-8').read()).call('get_cb')
+    cb = execjs.compile(js_code).call('get_cb')
+    print('cb》》',cb)
     track_ist, x, y = track()
     token = get_token()
-    data = execjs.compile(open('./demo.js', 'r', encoding='utf-8').read()).call('get_data', track_ist, x, y, token)
+    data = execjs.compile(js_code).call('get_data', track_ist, x, y, token)
     print(111, data)
     params = {
         "referer": "https://dun.163.com/trial/sense",
@@ -109,4 +111,5 @@ def check():
     res = requests.get(url, params=params, headers=headers, verify=False)
     print(res.status_code)
     print(res.text)
-check()
+if __name__ == '__main__':
+    check()
