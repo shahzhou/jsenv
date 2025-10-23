@@ -6789,10 +6789,6 @@ history = watch(new History(), 'History')
                                                     g(y[0], d, e, y[1]);
                                                 else {
                                                     var m = n.apply(d, e);
-                                                    if(e.length = 2 && e[0]=== 'a_bogus') {
-                                                        console.log("a_bogus", d,e)
-                                                        window.a_bogus =e[1];
-                                                    }
                                                     v[++p] = m
                                                 }
                                             } else {
@@ -8173,23 +8169,24 @@ history = watch(new History(), 'History')
 
 function get_abogus(url){
     xhttp = new XMLHttpRequest();
-//     xhttp.bdmsInvokeList =  [
-//     {
-//         "args": ["GET", url, true],
-//         'mfunc': function(t, n) {
-//             console.log(t, n)
-//         }
-//     },
-//     {
-//         "args": ["Accept", "application/json, text/plain, /*%"],
-//         'mfunc': function(args){
-//             console.log(args)
-//         }
-//     }
-// ]
+    xhttp.bdmsInvokeList =  [
+    {
+        "args": ["GET", url, true],
+        'mfunc': function(t, n) {
+            console.log(t, n)
+        }
+    },
+    {
+        "args": ["Accept", "application/json, text/plain, /*%"],
+        'mfunc': function(args){
+            console.log(args)
+        }
+    }
+]
     watch(xhttp, 'xhttp')
     // console.log('xhttp',xhttp)
     return window._abogus(xhttp, [null])
 }
+url  = "https://www.douyin.com/aweme/v1/web/aweme/post/?device_platform=webapp&aid=6383&channel=channel_pc_web&sec_user_id=MS4wLjABAAAA49HVmiFoPvZaYSW0qAo3lFxAo3d6Oj5PZn4u1M0r7cSRHDub5ky5Tvk5Iwkze23D&max_cursor=1759306668000&locate_query=false&show_live_replay_strategy=1&need_time_list=0&time_list_query=0&whale_cut_token=&cut_version=1&count=18&publish_video_strategy_type=2&from_user_page=1&update_version_code=170400&pc_client_type=1&pc_libra_divert=Windows&support_h265=1&support_dash=1&cpu_core_num=12&version_code=290100&version_name=29.1.0&cookie_enabled=true&screen_width=1920&screen_height=1080&browser_language=zh&browser_platform=Win32&browser_name=Chrome&browser_version=141.0.0.0&browser_online=true&engine_name=Blink&engine_version=141.0.0.0&os_name=Windows&os_version=10&device_memory=8&platform=PC&downlink=10&effective_type=4g&round_trip_time=50&webid=7564110097250649643&uifid=e92777d2cb4cf0f94a981760c14554e8d3208daf0443679909dcdbe8e735b0619812353d4bd68064bc6ad522660971189640e8a032d7358c1432f7414e6e60287232ecd57057509140cc8137fba7411283b052a4b23c947b5d53033b0b6364e6203aff064d6497a5dfdf626fbca809861ee08fbb0c8436b41a49bf00b9f26257c62e7dbf759c958778fdd8a1fc1be2425796f57092ced781f2ef4976f774ee7a"
 
-console.log(window.a_bogus);
+console.log('res::', get_abogus(url));
