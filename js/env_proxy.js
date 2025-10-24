@@ -1,3 +1,90 @@
+//算是最全补环境代理
+(()=>{
+   let console_log = console.log
+    console.log = function(...args){
+        console_log(...args)
+    }
+    watch = function watch(obj, name) {
+        return new Proxy(obj, {
+        //target 被代理的原始对象
+        // property 被访问的属性名
+        // receiver 最初被调用的对象（通常是代理实例或继承对象）
+        get: function(target, property, receiver) {
+            try {
+                if (typeof target[property] === "function") {
+                    console_log("对象 => " + name + ", 读取属性: " + property + ", 值为: function, 类型为: " + typeof target[property]);
+                } else {
+                    console_log("对象 => " + name + ", 读取属性: " + property + ", 值为: " + target[property] + ", 类型为: " + typeof target[property]);
+                }
+            } catch (e) {
+                // 捕获错误但不处理（保持原代码逻辑）
+            }
+            return target[property];
+        },
+        set: function(target, property, newValue, receiver) {
+            try {
+                console_log("对象 => " + name + ", 设置属性: " + property + ", 值为: " + newValue + ", 类型为: " + typeof newValue);
+            } catch (e) {
+                // 捕获错误但不处理（保持原代码逻辑）
+            }
+            return Reflect.set(target, property, newValue, receiver);
+        },
+        has: function(target, property) {
+            console.log(`对象 => ${name}, in 操作符检测属性：${String(property)}`);
+            return Reflect.has(target, property);
+        },
+        deleteProperty: function (target, property) {
+            console_log(`对象 => ${name},delete =>${property}`);
+            return true;
+        },
+        ownKeys:  function(target) {
+            console_log(`对象 => ${name}, 获取自身属性键`);
+            return Reflect.ownKeys(target);
+        },
+        defineProperty:  function(target, property, descriptor) {
+            console_log(`对象 => ${name}, 定义属性：${String(property)}`);
+            return Reflect.defineProperty(target, property, descriptor);
+        },
+        setPrototypeOf: function(target, property) {
+            console_log(`特殊检测:setPrototypeOf 被调用 (对象: ${name}）`);
+            return Reflect.setPrototypeOf(target, property);
+        },
+        getPrototypeOf: function(target) {
+            console_log(`特殊检测:getPrototypeOf 被调用 (对象: ${name}）`)
+            return Reflect.getPrototypeOf(target);
+        }
+    });
+};
+    get_enviroment = function get_enviroment(proxy_array) {
+        for (var i = 0; i < proxy_array.length; i++) {
+            handler = '{\n' +
+                '    get: function(target, property, receiver) {\n' +
+                '        console_log("方法:", "get  ", "对象:", ' +
+                '"' + proxy_array[i] + '" ,' +
+                '"  属性:", property, ' +
+                '"  属性类型:", ' + 'typeof property, ' +
+                // '"  属性值:", ' + 'target[property], ' +
+                '"  属性值类型:", typeof target[property]);\n' +
+                '        return target[property];\n' +
+                '    },\n' +
+                '    set: function(target, property, value, receiver) {\n' +
+                '        console_log("方法:", "set  ", "对象:", ' +
+                '"' + proxy_array[i] + '" ,' +
+                '"  属性:", property, ' +
+                '"  属性类型:", ' + 'typeof property, ' +
+                // '"  属性值:", ' + 'target[property], ' +
+                '"  属性值类型:", typeof target[property]);\n' +
+                '        return Reflect.set(...arguments);\n' +
+                '    }\n' +
+                '}'
+            eval('try{\n' + proxy_array[i] + ';\n'
+                + proxy_array[i] + '=new Proxy(' + proxy_array[i] + ', ' + handler + ')}catch (e) {\n' + proxy_array[i] + '={};\n'
+                + proxy_array[i] + '=new Proxy(' + proxy_array[i] + ', ' + handler + ')}')
+        }
+        };
+    proxy_array = ['globalThis', 'document', 'location', 'navigator', 'history', 'screen'];
+})();
+
 
 //重写WebGL API（补环境）需要重写WebGL渲染上下文的方法，返回固定的、常见的硬件信息
 (() => {
@@ -57,7 +144,40 @@
     };
 })();
 
-
+//避免代理里用到log被检测
+(()=>{
+   let console_log = console.log
+    console.log = function(...args){
+        console_log(...args)
+    }
+    watch = function (obj, name) {
+    return new Proxy(obj, {
+        //target 被代理的原始对象
+        // property 被访问的属性名
+        // receiver 最初被调用的对象（通常是代理实例或继承对象）
+        get: function(target, property, receiver) {
+            try {
+                if (typeof target[property] === "function") {
+                    console_log("对象 => " + name + ", 读取属性: " + property + ", 值为: function, 类型为: " + typeof target[property]);
+                } else {
+                    console_log("对象 => " + name + ", 读取属性: " + property + ", 值为: " + target[property] + ", 类型为: " + typeof target[property]);
+                }
+            } catch (e) {
+                // 捕获错误但不处理（保持原代码逻辑）
+            }
+            return target[property];
+        },
+        set: function(target, property, newValue, receiver) {
+            try {
+                console_log("对象 => " + name + ", 设置属性: " + property + ", 值为: " + newValue + ", 类型为: " + typeof newValue);
+            } catch (e) {
+                // 捕获错误但不处理（保持原代码逻辑）
+            }
+            return Reflect.set(target, property, newValue, receiver);
+        }
+    });
+};
+})();
 
 
 //隐藏代码 让toString()跟浏览器返回值一样
@@ -121,6 +241,47 @@ proxy_array = ['window', 'document', 'location', 'navigator', 'history', 'screen
 console.log(123456)
 
 //对所有对象都可以进行检测
+
+location = watch(location, 'location');
+
+//最初
+function watch(obj, name) {
+    return new Proxy(obj, {
+        //target 被代理的原始对象
+        // property 被访问的属性名
+        // receiver 最初被调用的对象（通常是代理实例或继承对象）
+        get: function(target, property, receiver) {
+            try {
+                if (typeof target[property] === "function") {
+                    console.log("对象 => " + name + ", 读取属性: " + property + ", 值为: function, 类型为: " + typeof target[property]);
+                } else {
+                    console.log("对象 => " + name + ", 读取属性: " + property + ", 值为: " + target[property] + ", 类型为: " + typeof target[property]);
+                }
+            } catch (e) {
+                // 捕获错误但不处理（保持原代码逻辑）
+            }
+            return target[property];
+        },
+        set: function(target, property, newValue, receiver) {
+            try {
+                console.log("对象 => " + name + ", 设置属性: " + property + ", 值为: " + newValue + ", 类型为: " + typeof newValue);
+            } catch (e) {
+                // 捕获错误但不处理（保持原代码逻辑）
+            }
+            return Reflect.set(target, property, newValue, receiver);
+        },
+        has(target, key) {
+            // debugger;
+            console.log(`in => ${key} in ${target}`)
+            return key in target
+        },
+        deleteProperty: function (target, property) {
+            console.log("delete => " + property);
+            return true;
+        }
+    });
+}
+
 //0.1版本
 function watch(obj, name) {
     return new Proxy(obj, {
@@ -146,6 +307,31 @@ function watch(obj, name) {
                 // 捕获错误但不处理（保持原代码逻辑）
             }
             return Reflect.set(target, property, newValue, receiver);
+        },
+        has(target, key) {
+            // debugger;
+            console.log(`in => ${key} in ${target}`)
+            return key in target
+        },
+        deleteProperty: function (target, property) {
+            console.log("delete => " + property);
+            return true;
+        },
+        ownKeys:  function(target) {
+            console.log(`对象 => ${name}, 获取自身属性键`);
+            return Reflect.ownKeys(target);
+        },
+        defineProperty:  function(target, property, descriptor) {
+            console.log(`对象 => ${name}, 定义属性：${String(property)}`);
+            return Reflect.defineProperty(target, property, descriptor);
+        },
+        setPrototypeOf: function(target, property) {
+            console.log(`特殊检测:setPrototypeOf 被调用 (对象: ${name}）`);
+            return Reflect.setPrototypeOf(target, property);
+        },
+        getPrototypeOf: function(target) {
+            console.log(`特殊检测:getPrototypeOf 被调用 (对象: ${name}）`)
+            return Reflect.getPrototypeOf(target);
         }
     });
 }
@@ -192,19 +378,19 @@ function watch(obj, name) {
 
 //0.3
 function watch(obj,name,visited  = new WeakSet()) {//防止循环引用导致无限递归
-    if(obj === null || typeof obj !== 'object' || visited.has(obj)) {
+    if(obj === null || typeof obj !== 'object' || visited.has(obj)) { // 递归结束条件
         return obj;
         }
     visited.add(obj);
     //俭查原型链访问
-    const checkPrototypeChain = (target,property) =>{
+    const checkPrototypeChain = (target,property) =>{ // 递归检查原型链
         let current = target; //属性直接存在于当前对象上
         while(current){
-            if(Object.prototype.hasOwnProperty.call(current, property)){
+            if(Object.prototype.hasOwnProperty.call(current, property)){ // 属性存在于当前对象上
                 return false;
             }
-            current = Object.getPrototypeOf(current);
-            if(current && current !== Object.prototype && current !== null) {
+            current = Object.getPrototypeOf(current); // 获取当前对象的原型
+            if(current && current !== Object.prototype && current !== null) { // 确保原型对象不是 Object.prototype 或 null
                 console.log(`原型链检测:true (对象:${name}，属性:${property})`);
                 return true;
                 }
@@ -212,11 +398,11 @@ function watch(obj,name,visited  = new WeakSet()) {//防止循环引用导致无
         return false;
     }
 
-    return new Proxy(obj, {
+    return new Proxy(obj, { // 代理对象
         get: function (target, property, receiver) {
             try {
                 //排除一些不常贝的或可能导致问题的属性
-                if (typeof property === 'symbol' || property === 'constructor' || property === '__proto__') {
+                if (typeof property === 'symbol' || property === 'constructor' || property === '__proto__') { // 忽略特殊属性
                     return Reflect.get(target, property, receiver);
                 }
                 // ***核心修改:针对 window.navigator.platform 的特殊处理 ***
@@ -230,8 +416,8 @@ function watch(obj,name,visited  = new WeakSet()) {//防止循环引用导致无
                 //深度监听嵌套对象
                 if (typeof value === 'object' && value !== null) {
                     //为嵌套对象生成一个更具体的名称
-                    const nestedName = `${name}.${String(property)}`;
-                    return watch(value, nestedName, visited);
+                    const nestedName = `${name}.${String(property)}`; //
+                    return watch(value, nestedName, visited); //
                 }
                 //只在值为undefined 时打印属性访问信息
                 if (value === undefined) {
@@ -240,13 +426,13 @@ function watch(obj,name,visited  = new WeakSet()) {//防止循环引用导致无
 
                 //检测原型链访问(无论值是否为undefined，都检测)
                 //如果属性不在 target 上，但通过原型链访问到，则标记为true
-                if (!Object.prototype.hasOwnProperty.call(target, property)) {
+                if (!Object.prototype.hasOwnProperty.call(target, property)) { // 属性不在当前对象上
                     checkPrototypeChain(target, property);
                 }
                 return value;
 
                 //检测描述符(无论值是否为undefined，都检测)
-                const descriptor = Object.getOwnPropertyDescriptor(target, property);
+                const descriptor = Object.getOwnPropertyDescriptor(target, property); // 获取属性描述符
                 if (descriptor) {
                     if (descriptor.get || descriptor.set) {
                         console.log(`特殊检测:存在Getter/Setter (对象:${name}，属性:${String(property)})`);
@@ -371,6 +557,14 @@ function obj_toString(obj,name) {
     Object.defineProperty(obj, Symbol.toStringTag, {
         value: name
     });
+}
+function set_toString(obj, name) {
+    Object.defineProperties(obj, {
+        [Symbol.toStringTag]: {
+            value: name,
+            writable: true,
+        }
+    })
 }
 
 // 检测是否有tostring 描述符 检测
